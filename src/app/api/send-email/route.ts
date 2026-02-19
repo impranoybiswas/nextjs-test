@@ -1,27 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-export async function POST(req: NextRequest) {
-  const { name, email, subject, text } = await req.json();
+export async function OPTIONS() {
+  return NextResponse.json(
+    {
+      success: true,
+    },
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    }
+  );
+}
 
-  if(!name || !email || !text || !subject) {
-    return new NextResponse(JSON.stringify({ success: false }), { status: 400 });
+export async function POST(req: NextRequest) {
+  const { email, subject, text } = await req.json();
+
+  if (!email || !text || !subject) {
+    return new NextResponse(JSON.stringify({ success: false }), {
+      status: 400,
+    });
   }
 
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: process.env.EMAIL_USER, // your Gmail address
-      pass: process.env.EMAIL_PASS, // Gmail App Password (not real password)
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS, 
     },
   });
 
   const mailOptions = {
     from: email,
-    to: process.env.EMAIL_RECEIVER, subject, text,
-    // subject: `New Message from ${name}`,
-    // text: `PORTFOLIO MESSAGE\nName: ${name}\nEmail: ${email}\n\n${message}`,
-    replyTo: email, // So replies go to sender
+    to: process.env.EMAIL_RECEIVER,
+    subject,
+    text,
+
+    replyTo: email,
   };
 
   try {
