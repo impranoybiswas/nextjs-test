@@ -24,7 +24,7 @@ function getSessionCookie(request: NextRequest): string | undefined {
   return undefined;
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const sessionToken = getSessionCookie(request);
