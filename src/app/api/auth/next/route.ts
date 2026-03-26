@@ -1,4 +1,4 @@
-import { getUsersCollection } from "@/libs/collection";
+import { getUsersCollection } from "@/lib/collection";
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
