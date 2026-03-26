@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { signUp, signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -33,15 +35,15 @@ export default function SignUpPage() {
       <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input name="name" placeholder="Name" required className="border p-2 rounded" />
-        <input name="email" type="email" placeholder="Email" required className="border p-2 rounded" />
-        <input name="password" type="password" placeholder="Password" required className="border p-2 rounded" />
+        <Input name="name" type="text" placeholder="Name" required />
+        <Input name="email" type="email" placeholder="Email" required  />
+        <Input name="password" type="password" placeholder="Password" required  />
+
+        
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <button type="submit" className="bg-black text-white py-2 rounded">
-          Sign Up
-        </button>
+        <Button type="submit">Sign Up</Button>
       </form>
 
       <div className="my-4 text-center text-gray-400">or</div>

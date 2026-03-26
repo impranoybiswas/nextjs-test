@@ -8,11 +8,11 @@ export default function Home() {
         NextJS App with Better Auth
       </h1>
       <div className="flex gap-4">
-        <Link href="/login" className="btn-primary">
-          Login
+        <Link href="/sign-in" className="btn-primary">
+          Sign In
         </Link>
-        <Link href="/register" className="btn-primary">
-          Register
+        <Link href="/sign-up" className="btn-primary">
+          Sign Up
         </Link>
       </div>
     </main>

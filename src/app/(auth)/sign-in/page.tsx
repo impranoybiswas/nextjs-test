@@ -2,16 +2,19 @@
 
 import { useState } from "react";
 import { signIn } from "@/lib/auth-client";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export default function SignInPage() {
-
   const [error, setError] = useState("");
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password = (form.elements.namedItem("password") as HTMLInputElement).value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      .value;
 
     const { error } = await signIn.email({
       email,
@@ -20,12 +23,25 @@ export default function SignInPage() {
     });
 
     if (error) {
-      setError(error.message ?? "Invalid credentials");
+      toast.error("Sign in failed: " + error.message);
+      setError(error.message ?? "Something went wrong");
+      return;
     }
+
+    toast.success("Signed in successfully!");
   }
 
   async function handleGoogle() {
-    await signIn.social({ provider: "google", callbackURL: "/dashboard" });
+    const { error } = await signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+    if (error) {
+      toast.error("Sign in failed: " + error.message);
+      setError(error.message ?? "Something went wrong");
+      return;
+    }
+    toast.success("Signed in successfully!");
   }
 
   return (
@@ -33,14 +49,26 @@ export default function SignInPage() {
       <h1 className="text-2xl font-bold mb-6">Sign In</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input name="email" type="email" placeholder="Email" required className="border p-2 rounded" />
-        <input name="password" type="password" placeholder="Password" required className="border p-2 rounded" />
+        <Input name="email" type="email" placeholder="Email" required />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+        />
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
 
-        <button type="submit" className="bg-black text-white py-2 rounded">
+        <Button
+          variant="link"
+          onClick={() => toast("Forgot password flow not implemented")}
+        >
+          Forgot Password?
+        </Button>
+
+        <Button type="submit" className="w-full">
           Sign In
-        </button>
+        </Button>
       </form>
 
       <div className="my-4 text-center text-gray-400">or</div>
