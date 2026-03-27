@@ -1,4 +1,6 @@
 "use client";
+
+import GroqChatbot from "@/components/groq-ai/groq-chat-bot";
 import Link from "next/link";
 
 export default function Home() {
@@ -14,6 +16,7 @@ export default function Home() {
         <Link href="/sign-up" className="btn-primary">
           Sign Up
         </Link>
+        <GroqChatbot/>
       </div>
     </main>
   );
