@@ -1,6 +1,9 @@
 {
   "home": {
     "title": "Welcome",
-    "description": "This is the home page."
+    "description": "This is the home page.",
+    "auth-text": "Login for a better home page.",
+    "sign-in": "Sign In",
+    "sign-up": "Sign Up"
   }
 }

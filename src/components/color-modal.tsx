@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useTheme, themes } from "@/contexts/theme-context";
+import { useColorTheme, themes } from "@/contexts/color-context";
 
 export function ThemeModal() {
   const [open, setOpen] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useColorTheme();
 
   return (
     <>
@@ -13,7 +13,7 @@ export function ThemeModal() {
         onClick={() => setOpen(true)}
         className="px-3 py-1.5 rounded-md border border-border text-sm hover:bg-muted transition"
       >
-        🎨 Theme
+        🎨 Color
       </button>
 
       {open && (
@@ -48,7 +48,7 @@ export function ThemeModal() {
                   >
                     {/* Color swatches */}
                     <div className="flex gap-1">
-                      {t.colors.map((color : any) => (
+                      {t.colors.map((color: string) => (
                         <span
                           key={color}
                           className="w-5 h-5 rounded-full border border-black/10"

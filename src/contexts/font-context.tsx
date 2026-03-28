@@ -22,13 +22,14 @@ const FontContext = createContext<FontContextType>({
   setFont: () => {},
 });
 
-export function FontProvider({ children }: { children: React.ReactNode }) {
-  const [font, setFontState] = useState<FontValue>(fonts[0].value);
+// localStorage থেকে initial value নাও
+function getInitialFont(): FontValue {
+  if (typeof window === "undefined") return fonts[0].value;
+  return (localStorage.getItem("app-font") as FontValue) ?? fonts[0].value;
+}
 
-  useEffect(() => {
-    const saved = localStorage.getItem("app-font") as FontValue | null;
-    if (saved) setFontState(saved);
-  }, []);
+export function FontProvider({ children }: { children: React.ReactNode }) {
+  const [font, setFontState] = useState<FontValue>(getInitialFont); // ✅ initializer function
 
   const setFont = (newFont: FontValue) => {
     setFontState(newFont);
@@ -36,6 +37,7 @@ export function FontProvider({ children }: { children: React.ReactNode }) {
     document.body.style.fontFamily = newFont;
   };
 
+  // শুধু DOM sync করার জন্য এই একটা effect
   useEffect(() => {
     document.body.style.fontFamily = font;
   }, [font]);

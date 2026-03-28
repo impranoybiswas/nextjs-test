@@ -1,6 +1,7 @@
 // src/components/LanguageToggle.tsx
 'use client';
 
+import { Languages } from 'lucide-react';
 import { useLocale } from 'next-intl';
 import { useRouter, usePathname } from 'next/navigation';
 import { useTransition } from 'react';
@@ -26,9 +27,9 @@ export default function LanguageToggle() {
     <button
       onClick={toggleLanguage}
       disabled={isPending}
-      className="px-4 py-2 rounded-full border border-gray-300 font-medium transition hover:bg-gray-100 disabled:opacity-50"
+      className="px-4 py-2 rounded-full border border-gray-300 font-medium transition hover:bg-gray-100 disabled:opacity-50 flex items-center gap-2"
     >
-      {locale === 'en' ? '🇧🇩 বাংলা' : '🇬🇧 English'}
+      <Languages scale={12}/> {locale === 'en' ? 'বাংলা' : ' English'}
     </button>
   );
 }

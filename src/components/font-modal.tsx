@@ -13,7 +13,7 @@ export function FontModal() {
         onClick={() => setOpen(true)}
         className="px-3 py-1.5 rounded-md border border-border text-sm hover:bg-muted transition"
       >
-        Aa Font
+        🎨 Font
       </button>
 
       {open && (
