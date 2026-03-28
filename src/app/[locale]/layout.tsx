@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { FontProvider } from "@/contexts/font-context";
+
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -25,8 +27,10 @@ export default async function LocaleLayout({
   return (
     <SessionProvider>
       <NextIntlClientProvider messages={messages}>
-        <Toaster />
-        {children}
+        <FontProvider>
+          <Toaster />
+          {children}
+        </FontProvider>
       </NextIntlClientProvider>
     </SessionProvider>
   );

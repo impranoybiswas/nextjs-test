@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { UserRole } from "@/lib/auth";
-import { LogoutButton } from "@/components/logout-button";
+import { LogoutButton } from "@/components/signout-button";
 
 // Role অনুযায়ী আলাদা UI component
 function AdminView({ name }: { name: string }) {

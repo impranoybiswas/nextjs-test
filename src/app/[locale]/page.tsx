@@ -1,5 +1,6 @@
 "use client";
 
+import { FontModal } from "@/components/font-modal";
 import GroqChatbot from "@/components/groq-ai/groq-chat-bot";
 import LanguageToggle from "@/components/language-toggle";
 import { useTranslations } from "next-intl";
@@ -23,6 +24,7 @@ export default function Home() {
         </Link>
         <GroqChatbot/>
         <LanguageToggle />
+        <FontModal />
       </div>
     </main>
   );
