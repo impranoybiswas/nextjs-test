@@ -1,11 +1,16 @@
 "use client";
 
 import GroqChatbot from "@/components/groq-ai/groq-chat-bot";
+import LanguageToggle from "@/components/language-toggle";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 
 export default function Home() {
+  const t = useTranslations('home');
   return (
     <main className="flex flex-col items-center justify-center min-h-screen gap-4">
+       <h1 className="text-3xl font-bold mt-4">{t('title')}</h1>
+      <p>{t('description')}</p>
       <h1 className="text-4xl font-bold text-primary">
         NextJS App with Better Auth
       </h1>
@@ -17,6 +22,7 @@ export default function Home() {
           Sign Up
         </Link>
         <GroqChatbot/>
+        <LanguageToggle />
       </div>
     </main>
   );
