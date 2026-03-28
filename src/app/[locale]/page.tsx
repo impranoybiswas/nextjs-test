@@ -3,6 +3,7 @@
 import { FontModal } from "@/components/font-modal";
 import GroqChatbot from "@/components/groq-ai/groq-chat-bot";
 import LanguageToggle from "@/components/language-toggle";
+import { ThemeModal } from "@/components/theme-modal";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -15,6 +16,7 @@ export default function Home() {
       <h1 className="text-4xl font-bold text-primary">
         NextJS App with Better Auth
       </h1>
+      <p className="text-destructive">Test</p>
       <div className="flex gap-4">
         <Link href="/sign-in" className="btn-primary">
           Sign In
@@ -25,6 +27,7 @@ export default function Home() {
         <GroqChatbot/>
         <LanguageToggle />
         <FontModal />
+        <ThemeModal/>
       </div>
     </main>
   );

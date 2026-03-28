@@ -5,7 +5,7 @@ import { getMessages } from "next-intl/server";
 import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
 import { FontProvider } from "@/contexts/font-context";
-
+import { ThemeProvider } from "@/contexts/theme-context";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -28,8 +28,10 @@ export default async function LocaleLayout({
     <SessionProvider>
       <NextIntlClientProvider messages={messages}>
         <FontProvider>
-          <Toaster />
-          {children}
+          <ThemeProvider>
+            <Toaster />
+            {children}
+          </ThemeProvider>
         </FontProvider>
       </NextIntlClientProvider>
     </SessionProvider>
