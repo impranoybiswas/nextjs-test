@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { admin } from "better-auth/plugins";
 import { client } from "@/lib/mongodb";
+import { sendMail } from "./mailer";
+import { verificationTemplate } from "./email-templates";
 
 export type UserRole = "admin" | "moderator" | "user";
 
@@ -14,6 +16,18 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+  },
+
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await sendMail({                        // ✅ reusable mailer
+        to: user.email,
+        subject: "Verify your email",
+        html: verificationTemplate(user.name, url),
+      });
     },
   },
 
@@ -40,6 +54,8 @@ export const auth = betterAuth({
     },
   },
 });
+
+
 
 export type Session = typeof auth.$Infer.Session;
 export type User = typeof auth.$Infer.Session.user;

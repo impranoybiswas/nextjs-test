@@ -1,12 +1,12 @@
-import { SessionProvider } from "@/app/providers/session-provider";
+import { SessionProvider } from "@/providers/SessionProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { Locale, routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import { FontProvider } from "@/contexts/font-context";
-import { ColorProvider } from "@/contexts/color-context";
+import { FontProvider } from "@/providers/FontProvider";
 import { ThemeProvider } from "next-themes";
+import { ColorProvider } from "@/providers/ColorProvider";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -34,12 +34,12 @@ export default async function LocaleLayout({
           enableSystem
           storageKey="app-theme"
         >
-          <FontProvider>
-            <ColorProvider>
+          <ColorProvider>
+            <FontProvider>
               <Toaster />
               {children}
-            </ColorProvider>
-          </FontProvider>
+            </FontProvider>
+          </ColorProvider>
         </ThemeProvider>
       </NextIntlClientProvider>
     </SessionProvider>

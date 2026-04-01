@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
+// ─── Route Config ─────────────────────────────────────────
 const routeConfig = {
   protected: ["/dashboard"],
   adminOnly: ["/admin"],
@@ -9,6 +10,7 @@ const routeConfig = {
   authRoutes: ["/sign-in", "/sign-up"],
 };
 
+// ─── Helpers ──────────────────────────────────────────────
 function getSessionCookie(request: NextRequest): string | undefined {
   const cookieNames = [
     "better-auth.session_token",
@@ -21,63 +23,65 @@ function getSessionCookie(request: NextRequest): string | undefined {
     const cookie = request.cookies.get(name);
     if (cookie?.value) return cookie.value;
   }
-
   return undefined;
 }
 
-const intlMiddleware = createMiddleware(routing);
-
-export async function proxy(request: NextRequest) {
-  const { pathname, origin } = request.nextUrl;
-
-  // locale prefix ছাড়া actual pathname বের করো
-  // e.g. /en/dashboard → /dashboard, /bn/sign-in → /sign-in
-  const pathnameWithoutLocale = routing.locales.reduce(
+function getPathnameWithoutLocale(pathname: string): string {
+  return routing.locales.reduce(
     (acc, locale) =>
       acc.startsWith(`/${locale}/`)
         ? acc.slice(`/${locale}`.length)
         : acc === `/${locale}`
-        ? "/"
-        : acc,
-    pathname
+          ? "/"
+          : acc,
+    pathname,
   );
+}
 
-  const sessionToken = getSessionCookie(request);
-  const isLoggedIn = !!sessionToken;
+async function getUserRole(
+  origin: string,
+  cookieHeader: string,
+): Promise<string | null> {
+  try {
+    const res = await fetch(`${origin}/api/auth/get-session`, {
+      headers: { cookie: cookieHeader },
+    });
+    if (!res.ok) return null;
+    const session = await res.json();
+    return session?.user?.role ?? null;
+  } catch {
+    return null;
+  }
+}
 
-  console.log("Auth check:", { pathname, pathnameWithoutLocale, isLoggedIn });
+// ─── Middleware ────────────────────────────────────────────
+const intlMiddleware = createMiddleware(routing);
 
-  /**
-   * AUTH ROUTES (sign-in, sign-up)
-   * logged in হলে → dashboard এ পাঠাও
-   */
-  if (routeConfig.authRoutes.some((r) => pathnameWithoutLocale.startsWith(r))) {
+export async function proxy(request: NextRequest) {
+  const { pathname, origin } = request.nextUrl;
+  const path = getPathnameWithoutLocale(pathname);
+  const isLoggedIn = !!getSessionCookie(request);
+
+  // Auth routes → logged in হলে dashboard এ পাঠাও
+  if (routeConfig.authRoutes.some((r) => path.startsWith(r))) {
     if (isLoggedIn) {
       return NextResponse.redirect(new URL("/dashboard", origin));
     }
-    // intl middleware চালাও
     return intlMiddleware(request);
   }
 
-  /**
-   * PROTECTED ROUTES (dashboard)
-   * logged in না হলে → sign-in এ পাঠাও
-   */
-  if (routeConfig.protected.some((r) => pathnameWithoutLocale.startsWith(r))) {
+  // Protected routes → logged in না হলে sign-in এ পাঠাও
+  if (routeConfig.protected.some((r) => path.startsWith(r))) {
     if (!isLoggedIn) {
       return NextResponse.redirect(new URL("/sign-in", origin));
     }
     return intlMiddleware(request);
   }
 
-  /**
-   * ADMIN / MODERATOR ROUTES
-   */
-  const isAdminRoute = routeConfig.adminOnly.some((r) =>
-    pathnameWithoutLocale.startsWith(r)
-  );
+  // Admin / Moderator routes → role check করো
+  const isAdminRoute = routeConfig.adminOnly.some((r) => path.startsWith(r));
   const isModRoute = routeConfig.moderatorAndAbove.some((r) =>
-    pathnameWithoutLocale.startsWith(r)
+    path.startsWith(r),
   );
 
   if (isAdminRoute || isModRoute) {
@@ -85,36 +89,21 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/sign-in", origin));
     }
 
-    try {
-      const sessionRes = await fetch(`${origin}/api/auth/get-session`, {
-        headers: {
-          cookie: request.headers.get("cookie") || "",
-        },
-      });
+    const role = await getUserRole(origin, request.headers.get("cookie") ?? "");
 
-      if (!sessionRes.ok) {
-        return NextResponse.redirect(new URL("/sign-in", origin));
-      }
-
-      const session = await sessionRes.json();
-      const role = session?.user?.role;
-
-      if (isAdminRoute && role !== "admin") {
-        return NextResponse.redirect(new URL("/dashboard", origin));
-      }
-
-      if (isModRoute && role !== "admin" && role !== "moderator") {
-        return NextResponse.redirect(new URL("/dashboard", origin));
-      }
-    } catch (error) {
-      console.error("Session fetch error:", error);
+    if (!role) {
       return NextResponse.redirect(new URL("/sign-in", origin));
+    }
+    if (isAdminRoute && role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", origin));
+    }
+    if (isModRoute && role !== "admin" && role !== "moderator") {
+      return NextResponse.redirect(new URL("/dashboard", origin));
     }
 
     return intlMiddleware(request);
   }
 
-  // বাকি সব route এ intl middleware চালাও
   return intlMiddleware(request);
 }
 

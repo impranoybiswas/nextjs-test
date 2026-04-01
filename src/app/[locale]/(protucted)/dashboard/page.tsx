@@ -2,7 +2,8 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { UserRole } from "@/lib/auth";
-import { LogoutButton } from "@/components/signout-button";
+import { SignOutButton } from "@/components/auth/SignoutButton";
+
 
 // Role অনুযায়ী আলাদা UI component
 function AdminView({ name }: { name: string }) {
@@ -55,7 +56,7 @@ export default async function DashboardPage() {
         <span className="px-3 py-1 bg-gray-100 rounded-full text-sm capitalize">
           {role}
         </span>
-        <LogoutButton/>
+        <SignOutButton />
       </div>
 
       {/* Role অনুযায়ী view render */}

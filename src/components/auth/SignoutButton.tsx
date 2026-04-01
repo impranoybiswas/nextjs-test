@@ -2,9 +2,9 @@
 
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
-export function LogoutButton() {
+export function SignOutButton() {
   const router = useRouter();
 
   async function handleLogout() {
@@ -12,7 +12,7 @@ export function LogoutButton() {
       fetchOptions: {
         onSuccess: () => {
           router.push("/sign-in");
-          router.refresh(); // session cache clear করতে
+          router.refresh(); // for session cache clear
         },
       },
     });
