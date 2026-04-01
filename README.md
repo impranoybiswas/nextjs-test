@@ -1,18 +1,28 @@
 This is a Store App For Get Component Easily
 
-## Installation
+# Installation and Usage
 
-# Theme Toggle
+## Better Auth
+- install : npm install better-auth
+- component : SignInForm, SignUpForm, SignOutButton, GoogleSignInButton
+- api : api/auth/[...all]
+- library : auth, auth-client
+
+## MongoDB
+- install : npm install mongodb
+- library : mongodb, collection
+
+## Theme Toggle
 - install : npm install next-themes
 - component : ThemeToggle;
 - provider : ThemeProvider from Next Theme;
 
-# Color Toggle
+## Color Toggle
 - context : ColorContext;
 - component : ColorToggle;
 - provider : ColorProvider;
 
-# Language Toggle
+## Language Toggle
 - install : npm install next-intl
 - component : LanguageToggle;
 - provider : IntlProvider from Next Intl;
@@ -20,14 +30,19 @@ This is a Store App For Get Component Easily
 - i18n : i18n;
 - proxy : proxy.ts;
 
-# Font Toggle
+## Font Toggle
 - context : FontContext;
 - component : FontToggle;
 - provider : FontProvider;
 
 
-# Mailer
+## Mailer
 - install : npm install nodemailer
 - component : sendMail
 - template : email-templates
 - api : api/mailer
+
+## Groq Chat Bot
+- install : npm install groq-sdk
+- component : GroqChatbot
+- api : api/groq-chat

@@ -1,6 +1,6 @@
 "use client";
 
-import GroqChatbot from "@/components/groq-ai/groq-chat-bot";
+import GroqChatbot from "@/components/groq/GroqChatBot";
 
 import { useTranslations } from "next-intl";
 import Link from "next/link";

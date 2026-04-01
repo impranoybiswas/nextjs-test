@@ -2,7 +2,6 @@
 
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
 
 export function SignOutButton() {
   const router = useRouter();
@@ -19,13 +18,11 @@ export function SignOutButton() {
   }
 
   return (
-    <Button
-      size="default"
-      variant="default"
-      className="bg-red-500"
+    <button
+      className="btn bg-red-400 text-white hover:bg-red-500"
       onClick={handleLogout}
     >
-      Logout
-    </Button>
+      Sign Out
+    </button>
   );
 }

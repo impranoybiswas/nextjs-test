@@ -8,7 +8,7 @@ import { SignOutButton } from "@/components/auth/SignoutButton";
 // Role অনুযায়ী আলাদা UI component
 function AdminView({ name }: { name: string }) {
   return (
-    <div className="p-4 bg-red-50 rounded">
+    <div className="p-4 bg-primary/10 rounded">
       <h2 className="text-xl font-bold text-red-700">Admin Panel</h2>
       <p>Welcome, {name}! You have full access.</p>
     </div>
@@ -17,7 +17,7 @@ function AdminView({ name }: { name: string }) {
 
 function ModeratorView({ name }: { name: string }) {
   return (
-    <div className="p-4 bg-yellow-50 rounded">
+    <div className="p-4 bg-priamry/10 rounded">
       <h2 className="text-xl font-bold text-yellow-700">Moderator Panel</h2>
       <p>Welcome, {name}! You can manage content.</p>
     </div>
@@ -26,7 +26,7 @@ function ModeratorView({ name }: { name: string }) {
 
 function UserView({ name }: { name: string }) {
   return (
-    <div className="p-4 bg-green-50 rounded">
+    <div className="p-4 bg-primary/10 rounded">
       <h2 className="text-xl font-bold text-green-700">User Dashboard</h2>
       <p>Welcome, {name}!</p>
     </div>
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
     <div className="max-w-4xl mx-auto mt-10 p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        <span className="px-3 py-1 bg-gray-100 rounded-full text-sm capitalize">
+        <span className="px-3 py-1 rounded-full text-sm capitalize border-primary/70 bg-primary/20 text-primary">
           {role}
         </span>
         <SignOutButton />
