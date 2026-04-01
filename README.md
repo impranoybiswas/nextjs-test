@@ -24,3 +24,10 @@ This is a Store App For Get Component Easily
 - context : FontContext;
 - component : FontToggle;
 - provider : FontProvider;
+
+
+# Mailer
+- install : npm install nodemailer
+- component : sendMail
+- template : email-templates
+- api : api/mailer

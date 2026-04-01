@@ -10,6 +10,7 @@ import ColorToggle from "@/components/settings/ColorToggle";
 import FontToggle from "@/components/settings/FontToggle";
 import { ThemeToggle } from "@/components/settings/ThemeToggle";
 import LanguageToggle from "@/components/settings/LanguageToggle";
+import SendMailForm from "@/components/SendMailForm";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -27,6 +28,20 @@ export default function Home() {
             {t("sign-up")}
           </Link>
         </CardContent>
+      </Card>
+
+      <Card>
+        <CardTitle className="text-2xl font-bold">Send Test Email</CardTitle>
+        <CardContent>
+          <p>
+            This will send a welcome email to the provided email address using
+            our API route.
+          </p>
+          <div className="mt-4">
+            <SendMailForm />
+          </div>
+        </CardContent>
+
       </Card>
 
       <GroqChatbot />

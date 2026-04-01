@@ -26,6 +26,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
+
     <SessionProvider>
       <NextIntlClientProvider messages={messages}>
         <ThemeProvider
