@@ -135,8 +135,19 @@
 
 /* custom */
 
+.card {
+  @apply p-4 rounded-xl bg-foreground/2 border border-foreground/10 shadow w-full;
+}
+
+.card h2 {
+  @apply text-xl font-semibold text-center mb-1;
+}
+.card p {
+  @apply text-center text-foreground/60 text-sm mb-4;
+}
+
 .btn {
-  @apply w-full border py-2 rounded flex items-center justify-center gap-2 cursor-pointer;
+  @apply w-full border py-2 rounded-lg flex items-center justify-center gap-2 cursor-pointer;
 }
 
 .btn-primary {
@@ -152,5 +163,5 @@
 }
 
 .input {
-  @apply w-full border py-2 px-3 rounded bg-input text-foreground placeholder:text-muted-foreground focus:ring-ring focus:ring-1 focus:outline-none transition-colors duration-200 ease-in-out;
+  @apply w-full border py-2 px-3 rounded-lg bg-input text-foreground placeholder:text-muted-foreground focus:ring-ring focus:ring-1 focus:outline-none transition-colors duration-200 ease-in-out;
 }

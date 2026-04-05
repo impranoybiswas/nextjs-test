@@ -15,13 +15,17 @@ type SendMailOptions = {
   html: string;
 };
 
+
+
 export async function sendMail({ to, subject, html }: SendMailOptions) {
   if (!to) throw new Error("Recipient email (to) is required");
 
-  return transporter.sendMail({
+  await transporter.sendMail({
     from: `"Your App" <${process.env.EMAIL_USER}>`,
     to,
     subject,
     html,
   });
+
+  return { success: true };
 }

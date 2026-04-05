@@ -1,9 +1,16 @@
 {
   "home": {
     "title": "স্বাগতম",
-    "description": "এটি হোম পেজ।",
-    "auth-text": "বেটার হোম পেজের জন্য লগইন করুন।",
-    "sign-in": "লগইন করুন",
-    "sign-up": "সাইন আপ করুন"
+    "description": "এটি হোম পেজ।"
+  },
+  "auth": {
+    "title": "প্রমাণীকরণ",
+    "description": "বেটার অথ দিয়ে লগইন করুন।",
+    "sign-in": "সাইন ইন",
+    "sign-up": "সাইন আপ",
+    "email-placeholder": "ইমেল",
+    "password-placeholder": "পাসওয়ার্ড",
+    "confirm-password-placeholder": "পাসওয়ার্ড নিশ্চিত করুন",
+    "submit-button": "জমা দিন"
   }
 }

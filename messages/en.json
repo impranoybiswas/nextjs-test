@@ -1,9 +1,16 @@
 {
   "home": {
     "title": "Welcome",
-    "description": "This is the home page.",
-    "auth-text": "Login for a better home page.",
+    "description": "This is the home page."
+  },
+  "auth": {
+    "title": "Authentication",
+    "description": "Login with better Auth",
     "sign-in": "Sign In",
-    "sign-up": "Sign Up"
+    "sign-up": "Sign Up",
+    "email-placeholder": "Email",
+    "password-placeholder": "Password",
+    "confirm-password-placeholder": "Confirm Password",
+    "submit-button": "Submit"
   }
 }

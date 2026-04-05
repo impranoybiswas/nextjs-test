@@ -1,3 +1,4 @@
+//For Welcome Message
 export function welcomeTemplate(name: string) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -8,6 +9,7 @@ export function welcomeTemplate(name: string) {
   `;
 }
 
+//For Contact Form Message
 export function contactTemplate({
   name,
   email,
@@ -28,6 +30,7 @@ export function contactTemplate({
   `;
 }
 
+//For Email Verification
 export function verificationTemplate(name: string, url: string) {
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

@@ -1,6 +1,6 @@
 import { sendMail } from "@/lib/mailer";
 import { welcomeTemplate, contactTemplate } from "@/lib/email-templates";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Supported email types
 type EmailType = "welcome" | "contact";
@@ -11,19 +11,34 @@ export async function POST(req: NextRequest) {
     const { type, ...data } = body;
 
     if (!type) {
-      return Response.json(
+      return NextResponse.json(
         { error: "Email type is required" },
-        { status: 400 }
+        { status: 400 },
       );
+    }
+
+    if (type === "welcome") {
+      const { name, email } = data;
+      if (!name || !email) {
+        return NextResponse.json(
+          { error: "name and email are required for welcome email" },
+          { status: 400 },
+        );
+      }
+      await sendMail({
+        to: email,
+        subject: "Welcome to Our App!",
+        html: welcomeTemplate(name),
+      });
     }
 
     switch (type as EmailType) {
       case "welcome": {
         const { name, email } = data;
         if (!name || !email) {
-          return Response.json(
+          return NextResponse.json(
             { error: "name, email required" },
-            { status: 400 }
+            { status: 400 },
           );
         }
         await sendMail({
@@ -37,13 +52,13 @@ export async function POST(req: NextRequest) {
       case "contact": {
         const { name, email, message } = data;
         if (!name || !email || !message) {
-          return Response.json(
+          return NextResponse.json(
             { error: "name, email, message required" },
-            { status: 400 }
+            { status: 400 },
           );
         }
         await sendMail({
-          to: process.env.EMAIL_USER!, // তোমার নিজের email এ আসবে
+          to: process.env.EMAIL_USER!,
           subject: `New message from ${name}`,
           html: contactTemplate({ name, email, message }),
         });
@@ -51,18 +66,18 @@ export async function POST(req: NextRequest) {
       }
 
       default:
-        return Response.json(
+        return NextResponse.json(
           { error: `Unknown email type: ${type}` },
-          { status: 400 }
+          { status: 400 },
         );
     }
 
-    return Response.json({ success: true });
+    return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Mail error:", error);
-    return Response.json(
+    return NextResponse.json(
       { error: "Failed to send email" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
