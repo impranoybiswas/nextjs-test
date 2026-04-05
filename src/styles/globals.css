@@ -140,10 +140,10 @@
 }
 
 .card h2 {
-  @apply text-xl font-semibold text-center mb-1;
+  @apply text-xl font-semibold text-center;
 }
 .card p {
-  @apply text-center text-foreground/60 text-sm mb-4;
+  @apply text-center text-foreground/60 text-sm mt-1 mb-6;
 }
 
 .btn {
